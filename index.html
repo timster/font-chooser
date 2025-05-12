@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monospace Font Bracket</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    .font-box {
+      display: inline-block;
+      width: 40%;
+      margin: 1rem;
+      padding: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      text-align: left;
+    }
+    .font-box:hover {
+      background-color: #f0f0f0;
+    }
+    .winner {
+      font-size: 2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pick Your Favorite Programming Font</h1>
+  <p>Click the one you prefer:</p>
+  <div id="choices">
+    <pre class="font-box" id="left" onclick="pick('left')"></pre>
+    <pre class="font-box" id="right" onclick="pick('right')"></pre>
+  </div>
+  <div class="winner" id="winner"></div>
+
+  <script>
+    const sampleText = `function greet(name) {\n  return "Hello, " + name;\n}`;
+
+    const fonts = [
+      "Fira Code",
+      "JetBrains Mono",
+      "Source Code Pro",
+      "Inconsolata",
+      "Cascadia Code",
+      "Ubuntu Mono",
+      "Roboto Mono",
+      "Courier New",
+      "Hack",
+      "IBM Plex Mono",
+      "Menlo",
+      "Monaco",
+      "SF Mono",
+      "PT Mono"
+    ];
+
+    let bracket = [...fonts];
+    let current = [];
+    let nextRound = [];
+
+    function nextPair() {
+      if (bracket.length < 2) {
+        if (nextRound.length === 1) {
+          showWinner(nextRound[0]);
+        } else {
+          bracket = [...nextRound];
+          nextRound = [];
+          nextPair();
+        }
+        return;
+      }
+      current = [bracket.shift(), bracket.shift()];
+      document.getElementById("left").style.fontFamily = `'${current[0]}', monospace`;
+      document.getElementById("right").style.fontFamily = `'${current[1]}', monospace`;
+      document.getElementById("left").textContent = sampleText;
+      document.getElementById("right").textContent = sampleText;
+    }
+
+    function pick(side) {
+      nextRound.push(current[side === "left" ? 0 : 1]);
+      nextPair();
+    }
+
+    function showWinner(font) {
+      document.getElementById("choices").style.display = "none";
+      document.getElementById("winner").textContent = `🏆 Your Winner: ${font}`;
+      document.getElementById("winner").style.fontFamily = `'${font}', monospace`;
+    }
+
+    // Inject Google Fonts
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?" +
+      fonts.map(f => "family=" + f.replace(/ /g, "+")).join("&") + "&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    nextPair();
+  </script>
+</body>
+</html>
