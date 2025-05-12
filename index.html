@@ -79,8 +79,8 @@
         return;
       }
       current = [bracket.shift(), bracket.shift()];
-      document.getElementById("left").style.fontFamily = `'${current[0]}', monospace`;
-      document.getElementById("right").style.fontFamily = `'${current[1]}', monospace`;
+      document.getElementById("left").style.fontFamily = `'${current[0]}', sans-serif`;
+      document.getElementById("right").style.fontFamily = `'${current[1]}', sans-serif`;
       document.getElementById("left").textContent = sampleText;
       document.getElementById("right").textContent = sampleText;
     }
@@ -93,7 +93,7 @@
     function showWinner(font) {
       document.getElementById("choices").style.display = "none";
       document.getElementById("winner").textContent = `🏆 Your Winner: ${font}`;
-      document.getElementById("winner").style.fontFamily = `'${font}', monospace`;
+      document.getElementById("winner").style.fontFamily = `'${font}', sans-serif`;
     }
 
     // Inject Google Fonts
